@@ -5,5 +5,5 @@ export interface Aluno {
     nome: string;
     cpf: string;
     telefone: string;
-    cursos: Array<Curso>;
+    cursos: Curso[];
 }

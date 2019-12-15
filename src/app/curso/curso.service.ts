@@ -10,14 +10,14 @@ import { Curso } from './curso';
 export class CursoService {
   readonly url = 'http://localhost:8080/api/cursos'
 
-  private cursoSubjec$:  BehaviorSubject<Array<Curso>> = new BehaviorSubject<Array<Curso>>(null);
+  private cursoSubjec$:  BehaviorSubject<Curso[]> = new BehaviorSubject<Curso[]>(null);
   private carregado: boolean = false;
 
   constructor(private http: HttpClient) { }
 
-  listarTodos(): Observable<Array<Curso>>{
+  listarTodos(): Observable<Curso[]>{
     if(!this.carregado){
-      this.http.get<Array<Curso>>(this.url)
+      this.http.get<Curso[]>(this.url)
       .pipe(tap((cursos) => console.log(cursos)))
       .subscribe(this.cursoSubjec$);
       this.carregado = true;

@@ -13,6 +13,7 @@ import { takeUntil } from 'rxjs/operators';
 export class CursoComponent implements OnInit {
 
   nomeCurso: string = '';
+  matricula: number = null;
   cursos: Array<Curso>;
   private unsubscribe$: Subject<any> = new Subject();
 
@@ -25,7 +26,7 @@ export class CursoComponent implements OnInit {
   }
 
   salvar(){
-    this.cursoService.adicionar({nome: this.nomeCurso}).subscribe(
+    this.cursoService.adicionar({matricula: this.matricula, nome: this.nomeCurso}).subscribe(
       (curso) => {this.notificar("Curso cadastrado!"); this.limparCampo()},
       (erro) => console.error(erro))
   }
