@@ -63,7 +63,7 @@ export class AlunoService {
 
   atualizar(aluno: Aluno): Observable<Aluno>{
     let cursos = (aluno.cursos as Curso[]).map(cursos => cursos._id)
-    return this.http.put<Aluno>(`${this.url}/${aluno}`, {...aluno, cursos} )
+    return this.http.patch<Aluno>(`${this.url}/${aluno._id}`, {...aluno, cursos} )
       .pipe(
         tap(() => {
           let alunos = this.alunoSubject$.getValue();

@@ -6,6 +6,8 @@ import { CursoService } from '../curso/curso.service';
 import { Curso } from '../curso/curso';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material';
+import { error } from 'protractor';
 
 @Component({
   selector: 'app-aluno',
@@ -28,7 +30,7 @@ export class AlunoComponent implements OnInit {
 
   private unsubscribe$: Subject<any> = new Subject<any>();
 
-  constructor(private alunoService: AlunoService, private fb: FormBuilder, private cursoService: CursoService) { }
+  constructor(private alunoService: AlunoService, private fb: FormBuilder, private cursoService: CursoService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
      this.alunoService.listarTodos().pipe(
@@ -44,17 +46,33 @@ export class AlunoComponent implements OnInit {
     let dado = this.alunoForm.value;
     if(dado._id != null){
       this.alunoService.atualizar(dado).subscribe();
+      this.notificar("Aluno atualizado!")
     }else{
       this.alunoService.adicionar(dado).subscribe();
+      this.notificar("Aluno cadastrado!");
     }
+    this.resetar();
   }
 
-  editar(){
+  editar(aluno: Aluno){
+    this.alunoForm.setValue(aluno);
+  }
+
+  deletar(aluno: Aluno){
+    this.alunoService.deletar(aluno).subscribe(() => this.notificar("Aluno deletado!"), 
+    (error) => {
+      this.notificar("Error ao deletar produto!");  
+      console.error(error);
+    })
+  }
+
+  notificar(msg: string){
+    this.snackBar.open(msg, "OK", {duration: 1500})
 
   }
 
-  deletar(){
-
+  resetar(){
+    this.alunoForm.reset();
   }
 
   ngOnDestroy(){
