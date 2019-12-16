@@ -23,7 +23,7 @@ router.get('/', function(req, res){
 
 router.delete('/:id', (req, res) =>{
     let id = req.params.id;
-    Curso.deleteOne({_matricula: id}, (error) => {
+    Curso.deleteOne({_id: id}, (error) => {
         if(error)
             res.status(500).send(error);
         else
