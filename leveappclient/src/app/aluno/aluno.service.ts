@@ -27,8 +27,8 @@ export class AlunoService {
           tap(([alunos, cursos]) => console.log(alunos, cursos)),
           map(([alunos, cursos]) => {
             for(let a of alunos){
-              let ids = (a.cursos);
-              a.cursos = ids.map((id)=>cursos.find(c => c._id == id._id))
+              let ids = (a.cursos as string[]);
+              a.cursos = ids.map((id)=>cursos.find(c => c._id == id))
             }
             return alunos;
           }), tap((alunos) => console.log(alunos))
@@ -41,7 +41,7 @@ export class AlunoService {
   }
 
   adicionar(aluno: Aluno): Observable<Aluno>{
-    let cursos = (aluno.cursos as Curso[]).map(cursos => cursos._id)
+    let cursos = (aluno.cursos as Curso[]).map(c => c._id)
     return this.http.post<Aluno>(this.url, {...aluno, cursos}).pipe(
       tap((a) => {
         this.alunoSubject$.getValue().push({...aluno, _id: a._id})

@@ -16,7 +16,7 @@ export class AlunoComponent implements OnInit {
 
 
   alunoForm: FormGroup = this.fb.group({
-    id: [null],
+    _id: [null],
     nome: [''],
     cpf: [''],
     telefone: [''],
@@ -42,10 +42,10 @@ export class AlunoComponent implements OnInit {
 
   salvar(){
     let dado = this.alunoForm.value;
-    if(dado.id != null){
-      this.alunoService.atualizar(dado);
+    if(dado._id != null){
+      this.alunoService.atualizar(dado).subscribe();
     }else{
-      this.alunoService.adicionar(dado);
+      this.alunoService.adicionar(dado).subscribe();
     }
   }
 

@@ -3,6 +3,7 @@ const bodyparser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const curso_controller = require('./controllers/curso_controller');
+const aluno_controller = require('./controllers/aluno_controller');
 
 const app = express();
 app.use(bodyparser.json())
@@ -12,5 +13,6 @@ app.use(cors());
 mongoose.connect('mongodb://localhost:27017/levecursosapi', {useNewUrlParser: true});
 
 app.use('/cursos', curso_controller);
+app.use('/alunos', aluno_controller);
 
 app.listen(3000);
