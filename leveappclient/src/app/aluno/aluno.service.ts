@@ -11,7 +11,7 @@ import { Curso } from '../curso/curso';
 })
 export class AlunoService {
 
-  readonly url = 'http://localhost:8080/api/alunos';
+  readonly url = 'http://localhost:3000/alunos';
   private alunoSubject$: BehaviorSubject<Aluno[]> = new BehaviorSubject<Aluno[]>(null);
   private carregado: boolean = false;
 

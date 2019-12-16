@@ -8,7 +8,7 @@ import { Curso } from './curso';
   providedIn: 'root'
 })
 export class CursoService {
-  readonly url = 'http://localhost:8080/api/cursos'
+  readonly url = 'http://localhost:3000/cursos'
 
   private cursoSubjec$:  BehaviorSubject<Curso[]> = new BehaviorSubject<Curso[]>(null);
   private carregado: boolean = false;
