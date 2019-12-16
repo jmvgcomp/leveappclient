@@ -2,16 +2,16 @@
     <mat-card-title>Cadastro de Alunos</mat-card-title>
     
     <mat-card-content>
-        <form [formGroup]="alunoForm" (ngSubmit)="salvar()" fxLayout="column" fxLayoutAlign="space-between">
+        <form [formGroup]="alunoForm" vali (ngSubmit)="salvar()" fxLayout="column" fxLayoutAlign="space-between">
             <input type="hidden" formControlName="_id">
             <mat-form-field>
-                <input matInput placeholder="Nome do Aluno" formControlName="nome">
+                <input matInput placeholder="Nome do Aluno" formControlName="nome" required>
             </mat-form-field>
             <mat-form-field>
-                <input matInput placeholder="CPF" formControlName="cpf">
+                <input matInput placeholder="CPF" mask="000.000.000-00" formControlName="cpf" required>
             </mat-form-field>
             <mat-form-field>
-                <input matInput placeholder="Telefone" formControlName="telefone">
+                <input matInput placeholder="Telefone" mask="(00) 00000-0000" formControlName="telefone">
             </mat-form-field>
 
 

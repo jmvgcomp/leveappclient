@@ -19,9 +19,9 @@ export class AlunoComponent implements OnInit {
 
   alunoForm: FormGroup = this.fb.group({
     _id: [null],
-    nome: [''],
-    cpf: [''],
-    telefone: [''],
+    nome: ['', [Validators.required]],
+    cpf: ['', [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
+    telefone: ['', [Validators.required]],
     cursos: [[]]
   })
 
@@ -43,13 +43,17 @@ export class AlunoComponent implements OnInit {
   }
 
   salvar(){
-    let dado = this.alunoForm.value;
-    if(dado._id != null){
-      this.alunoService.atualizar(dado).subscribe();
-      this.notificar("Aluno atualizado!")
+       let dado = this.alunoForm.value;
+      if(dado.nome != '' && dado.cpf != ''){
+      if(dado._id != null){
+        this.alunoService.atualizar(dado).subscribe();
+        this.notificar("Aluno atualizado!")
+      }else{
+        this.alunoService.adicionar(dado).subscribe();
+        this.notificar("Aluno cadastrado!");
+      }
     }else{
-      this.alunoService.adicionar(dado).subscribe();
-      this.notificar("Aluno cadastrado!");
+      this.notificar("Os campos requeridos devem estar preenchidos!")
     }
     this.resetar();
   }

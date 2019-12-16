@@ -35,7 +35,7 @@ export class CursoComponent implements OnInit {
       })
     }else{
     this.cursoService.adicionar({nome: this.nomeCurso}).subscribe(
-      (curso) => {this.notificar("Curso cadastrado!");this.limparCampo()},
+      (curso) => {this.notificar("Curso cadastrado!"); this.limparCampo()},
       (erro) => console.error(erro))
     }
   }
@@ -60,7 +60,4 @@ export class CursoComponent implements OnInit {
     this.nomeCurso = curso.nome;
     this.cursoEditar = curso;
   }
-
-  
-
 }
