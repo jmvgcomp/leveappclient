@@ -1,7 +1,7 @@
 import { Curso } from '../curso/curso';
 
 export interface Aluno {
-    id: number;
+    _id: string;
     nome: string;
     cpf: string;
     telefone: string;

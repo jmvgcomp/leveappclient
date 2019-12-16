@@ -1,4 +1,4 @@
 export interface Curso {
-    matricula: number;
+    _id ?: string;
     nome: string;
 }

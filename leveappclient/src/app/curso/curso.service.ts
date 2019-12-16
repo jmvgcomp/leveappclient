@@ -32,11 +32,24 @@ export class CursoService {
   }
 
   deletar(curso: Curso): Observable<any>{
-    return this.http.delete(`${this.url}/${curso.matricula}`).pipe(
+    return this.http.delete(`${this.url}/${curso._id}`).pipe(
       tap(() => { let cursos = this.cursoSubjec$.getValue(); 
-        let i = cursos.findIndex(c => c.matricula == curso.matricula);
+        let i = cursos.findIndex(c => c._id == curso._id);
+        console.log(i);
         if(i >= 0)
           cursos.splice(i, 1)
+      } )
+    )
+  }
+
+  atualizar(curso: Curso): Observable<Curso>{
+    return this.http.patch<Curso>(`${this.url}/${curso._id}`, curso)
+    .pipe(
+      tap((c) => { let cursos = this.cursoSubjec$.getValue(); 
+        let i = cursos.findIndex(c => c._id == curso._id);
+        console.log(i);
+        if(i >= 0)
+          cursos[i].nome = c.nome;
       } )
     )
   }

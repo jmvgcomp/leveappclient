@@ -22,8 +22,8 @@ router.get('/', function(req, res){
 })
 
 router.delete('/:id', (req, res) =>{
-    let id = req.params.matricula;
-    Curso.deleteOne({matricula: id}, (error) => {
+    let id = req.params.id;
+    Curso.deleteOne({_matricula: id}, (error) => {
         if(error)
             res.status(500).send(error);
         else
@@ -31,7 +31,7 @@ router.delete('/:id', (req, res) =>{
     })
 })
 
-router.patch(':/id', (req, res)=>{
+router.patch('/:id', (req, res)=>{
     Curso.findById(req.params.id, (error, curso) =>{
         if(error)
             res.status(500).send(error);

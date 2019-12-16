@@ -28,7 +28,7 @@ export class AlunoService {
           map(([alunos, cursos]) => {
             for(let a of alunos){
               let ids = (a.cursos);
-              a.cursos = ids.map((id)=>cursos.find(c => c.matricula == id.matricula))
+              a.cursos = ids.map((id)=>cursos.find(c => c._id == id._id))
             }
             return alunos;
           }), tap((alunos) => console.log(alunos))
@@ -41,20 +41,20 @@ export class AlunoService {
   }
 
   adicionar(aluno: Aluno): Observable<Aluno>{
-    let cursos = (aluno.cursos as Curso[]).map(cursos => cursos.matricula)
+    let cursos = (aluno.cursos as Curso[]).map(cursos => cursos._id)
     return this.http.post<Aluno>(this.url, {...aluno, cursos}).pipe(
       tap((a) => {
-        this.alunoSubject$.getValue().push({...aluno, id: a.id})
+        this.alunoSubject$.getValue().push({...aluno, _id: a._id})
       })
     )
   }
 
   deletar(aluno: Aluno): Observable<any>{
-    return this.http.delete(`${this.url}/${aluno.id}`)
+    return this.http.delete(`${this.url}/${aluno._id}`)
       .pipe(
         tap(() => {
           let alunos = this.alunoSubject$.getValue();
-          let i = alunos.findIndex(a => a.id == aluno.id)
+          let i = alunos.findIndex(a => a._id == aluno._id)
           if(i >= 0)
             alunos.splice(i, 1)
         })
@@ -62,12 +62,12 @@ export class AlunoService {
   }
 
   atualizar(aluno: Aluno): Observable<Aluno>{
-    let cursos = (aluno.cursos as Curso[]).map(cursos => cursos.matricula)
+    let cursos = (aluno.cursos as Curso[]).map(cursos => cursos._id)
     return this.http.put<Aluno>(`${this.url}/${aluno}`, {...aluno, cursos} )
       .pipe(
         tap(() => {
           let alunos = this.alunoSubject$.getValue();
-          let i = alunos.findIndex(a => a.id == aluno.id);
+          let i = alunos.findIndex(a => a._id == aluno._id);
           if(i >= 0)
             alunos[i] = aluno;
         })

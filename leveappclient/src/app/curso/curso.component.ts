@@ -13,10 +13,9 @@ import { takeUntil } from 'rxjs/operators';
 export class CursoComponent implements OnInit {
 
   nomeCurso: string = ''
-  matricula: number = null;
   cursos: Array<Curso>;
   private unsubscribe$: Subject<any> = new Subject();
-
+  cursoEditar: Curso = null;
   constructor(private cursoService: CursoService, private notificacao: MatSnackBar) { }
 
   ngOnInit() {
@@ -26,19 +25,30 @@ export class CursoComponent implements OnInit {
   }
 
   salvar(){
-
-    this.cursoService.adicionar({matricula:this.matricula, nome: this.nomeCurso}).subscribe(
-      (curso) => {this.notificar("Curso cadastrado!"); console.log(curso); this.limparCampo()},
+    if(this.cursoEditar ){
+      this.cursoService.atualizar({nome: this.nomeCurso, _id: this.cursoEditar._id})
+      .subscribe((curso) => {
+        this.notificar("Atualizado!")
+      }, (error) => {
+        this.notificar("Error!")
+        console.log(error)
+      })
+    }else{
+    this.cursoService.adicionar({nome: this.nomeCurso}).subscribe(
+      (curso) => {this.notificar("Curso cadastrado!");this.limparCampo()},
       (erro) => console.error(erro))
+    }
   }
 
   limparCampo(){
     this.nomeCurso = '';
+    this.cursoEditar = null;
   }
 
   deletar(curso: Curso){
     this.cursoService.deletar(curso).subscribe(
-      () => this.notificar("Removido!")
+      () => this.notificar("Removido!"),
+      (error) => console.log(error)
     )
   }
 
@@ -46,8 +56,11 @@ export class CursoComponent implements OnInit {
     this.notificacao.open(msg, "OK", {duration: 1500})
   }
 
-  ngOnDestroy(){
-    this.unsubscribe$.next();
+  atualizar(curso: Curso){
+    this.nomeCurso = curso.nome;
+    this.cursoEditar = curso;
   }
+
+  
 
 }
