@@ -48,12 +48,12 @@ export class CursoComponent implements OnInit {
   deletar(curso: Curso){
     this.cursoService.deletar(curso).subscribe(
       () => this.notificar("Removido!"),
-      (error) => console.log(error)
+      (error) => this.notificar(error.error.msg)
     )
   }
 
   notificar(msg: string){
-    this.notificacao.open(msg, "OK", {duration: 1500})
+    this.notificacao.open(msg, "OK", {duration: 3000})
   }
 
   atualizar(curso: Curso){

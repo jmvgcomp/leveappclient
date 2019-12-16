@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var Curso = require('../model/curso')
+var Aluno = require('../model/aluno')
+
 
 router.post('/', function(req, res){
     let curso = new Curso({ nome: req.body.nome })
@@ -21,14 +23,19 @@ router.get('/', function(req, res){
     })
 })
 
-router.delete('/:id', (req, res) =>{
+router.delete('/:id', async (req, res) =>{
+    try{
     let id = req.params.id;
-    Curso.deleteOne({_id: id}, (error) => {
-        if(error)
-            res.status(500).send(error);
-        else
-            res.status(200).send({});
-    })
+    let alunos = await Aluno.find({cursos: id}).exec();
+    if(alunos.length > 0){
+        res.status(500).send({msg: "Você não pode remover este curso! Há alunos matriculados."})
+    }else{
+       await Curso.deleteOne({_id: id}),
+        res.status(200).send({})
+    }    
+        }catch(error){
+            res.status(500).send({msg: "Erro interno", error: error});
+        }
 })
 
 router.patch('/:id', (req, res)=>{
